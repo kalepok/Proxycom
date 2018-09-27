@@ -190,6 +190,15 @@ USERS = $SECRETS
 	esac
 	exit
 fi
+
+# Firewalld
+if [ ${OS} == CentOS ];then
+  yum install firewalld -y
+  systemctl enable firewalld
+  systemctl start firewalld
+  systemctl status firewalld
+fi
+
 #Variables
 regex='^[0-9]+$'
 SECRETS=""
@@ -199,12 +208,13 @@ USERNAME_END_ARY=()
 TAG=""
 COUNTER=1
 echo "Welcome to MTProto-Proxy auto installer!"
-echo "Created by Hirbod Behnam"
+echo "Created by ProxyCom"
 echo "I will install mtprotoproxy python script by alexbers"
 echo "Source at https://github.com/alexbers/mtprotoproxy"
 echo "Now I will gather some info from you."
 echo ""
 echo ""
+
 read -p "Ok select a port to proxy listen on it: " -e -i 443 PORT
 #Lets check if the PORT is valid
 if ! [[ $PORT =~ $regex ]] ; then
